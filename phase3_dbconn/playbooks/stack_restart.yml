@@ -2,15 +2,17 @@
 ---
   - hosts: loadbalancer
     become: true
+    gather_facts: false
     tasks:
-      - name: ensure nginx stopped
-        service: name=nginx  state=stopped
+      - name: ensure nginx restarted
+        service: name=nginx  state=restarted
 
   - hosts: webserver
     become: true
+    gather_facts: false
     tasks:
-      - name: ensure apache2 stopped
-        service: name=apache2  state=stopped
+      - name: ensure apache2 restarted
+        service: name=apache2  state=restarted
 
   # Restart mysql		
   - hosts: database
@@ -18,17 +20,3 @@
     tasks:
       - name: ensure mysql restarted
         service: name=mysql  state=restarted
-
-  - hosts: webserver
-    become: true
-    tasks:
-      - name: ensure webserver started
-        service: name=apache2  state=started
-
-  - hosts: loadbalancer
-    become: true
-    tasks:
-      - name: ensure nginx started
-        service: name=nginx  state=started
-
-
